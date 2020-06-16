@@ -1,6 +1,12 @@
 using Pkg
-using PkgBenchmark
-
 Pkg.activate("./jenkins_env/")
+Pkg.add(["PkgBenchmark", "BenchmarkTools", "MatrixDepot", "MatrixMarket", "GitHub", "JSON", "LinearOperators"])
 
-PkgBenchmark.benchmarkpkg("Krylov")
+using PkgBenchmark
+Pkg.develop(PackageSpec(path="./Krylov.jl"))
+Pkg.update()
+
+fetch_ssmc(ufl_posdef, format="MM")
+
+# PkgBenchmark.benchmarkpkg("Krylov")
+include("./Krylov.jl/benchmark/run_benchmarks.jl")
