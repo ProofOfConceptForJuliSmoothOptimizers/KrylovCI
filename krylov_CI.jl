@@ -6,6 +6,7 @@ Pkg.pin(PackageSpec(name="LearnBase", version="0.3"))
 Pkg.develop(PackageSpec(path="./Krylov.jl"))
 Pkg.update()
 
+using PkgBenchmark
 using SuiteSparseMatrixCollection
 
 
