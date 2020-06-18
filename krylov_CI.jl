@@ -3,7 +3,7 @@ Pkg.activate("./jenkins_env/")
 
 Pkg.add(["PkgBenchmark", "BenchmarkTools", "MatrixDepot", "MatrixMarket", "GitHub", "JSON", "LinearOperators", "LearnBase"])
 Pkg.pin(PackageSpec(name="LearnBase", version="0.3"))
-Pkg.develop(PackageSpec(path="./Krylov.jl"))
+Pkg.develop(PackageSpec(path="./"))
 Pkg.update()
 
 using PkgBenchmark
@@ -14,4 +14,4 @@ ufl_posdef = filter(p -> p.structure == "symmetric" && p.posDef == "yes" && p.ty
 # fetch_ssmc(ufl_posdef, format="MM")
 
 # PkgBenchmark.benchmarkpkg("Krylov")
-include("./Krylov.jl/benchmark/run_benchmarks.jl")
+include("./benchmark/run_benchmarks.jl")
