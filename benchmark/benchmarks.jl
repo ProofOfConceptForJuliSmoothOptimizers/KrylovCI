@@ -13,7 +13,7 @@ include("../test/get_div_grad.jl")
 # ufl_posdef = filter(p -> p.structure == "symmetric" && p.posDef == "yes" && p.type == "real" && p.rows ≤ 2_000, ssmc)
 ufl_posdef = filter(p -> p.structure == "symmetric" && p.posDef == "yes" && p.type == "real" && p.rows ≤ 100, ssmc)
 
-# fetch_ssmc(ufl_posdef, format="MM")
+fetch_ssmc(ufl_posdef, format="MM")
 
 const SUITE = BenchmarkGroup()
 
