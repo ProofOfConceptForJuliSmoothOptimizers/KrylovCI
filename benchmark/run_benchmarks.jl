@@ -33,3 +33,4 @@ gist_json = JSON.parse("""
 
 open("gist.json", "w") do f
     JSON.print(f, gist_json)
+end
