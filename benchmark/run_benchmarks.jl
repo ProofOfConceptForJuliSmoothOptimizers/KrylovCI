@@ -4,9 +4,10 @@ print(bmark_dir)
 Pkg.activate(bmark_dir)
 Pkg.develop(PackageSpec(url=joinpath(bmark_dir, ".."))) 
 Pkg.instantiate()
+Pkg.pin("LearnBase")
+
 
 using GitHub, JSON, PkgBenchmark
-
 master = benchmarkpkg("Krylov", "master")
 commit = benchmarkpkg("Krylov")  # current state of repository
 judgement = judge(commit, master)
