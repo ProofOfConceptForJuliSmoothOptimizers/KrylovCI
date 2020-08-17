@@ -63,7 +63,7 @@ pipeline {
     stage('pull from repository') {
       steps {
         // TODO: dont hardcode repo url and make a variable for it
-        sh 'git clone https://github.com/ProofOfConceptForJuliSmoothOptimizers/LDLFactorizations.jl.git'
+        sh 'git clone https://github.com/ProofOfConceptForJuliSmoothOptimizers/KrylovCI.git'
         dir(WORKSPACE + "/$repo") {
             sh 'git checkout ' + BRANCH_NAME
             sh 'git pull'
