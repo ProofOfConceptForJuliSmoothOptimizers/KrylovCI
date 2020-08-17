@@ -4,7 +4,7 @@ print(bmark_dir)
 Pkg.activate(bmark_dir)
 Pkg.develop(PackageSpec(url=joinpath(bmark_dir, ".."))) 
 Pkg.instantiate()
-Pkg.pin("LearnBase")
+Pkg.pin(PackageSpec(name="LearnBase", version="0.3"))
 
 
 using GitHub, JSON, PkgBenchmark
