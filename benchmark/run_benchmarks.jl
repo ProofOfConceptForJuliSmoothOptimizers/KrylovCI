@@ -8,8 +8,8 @@ Pkg.pin(PackageSpec(name="LearnBase", version="0.3"))
 
 
 using GitHub, JSON, PkgBenchmark
-master = benchmarkpkg("Krylov", "master")
 commit = benchmarkpkg("Krylov")  # current state of repository
+master = benchmarkpkg("Krylov", "master")
 judgement = judge(commit, master)
 export_markdown("judgement.md", judgement)
 export_markdown("master.md", master)
