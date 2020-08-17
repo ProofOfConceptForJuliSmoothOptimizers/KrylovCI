@@ -7,8 +7,8 @@ Pkg.instantiate()
 
 using GitHub, JSON, PkgBenchmark
 
-commit = benchmarkpkg("Krylov")  # current state of repository
 master = benchmarkpkg("Krylov", "master")
+commit = benchmarkpkg("Krylov")  # current state of repository
 judgement = judge(commit, master)
 export_markdown("judgement.md", judgement)
 export_markdown("master.md", master)
