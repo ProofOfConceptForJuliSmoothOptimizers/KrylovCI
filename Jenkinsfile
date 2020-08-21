@@ -1,4 +1,4 @@
-bmarkFile = getBenchmarkFile("$comment")
+def bmarkFile = getBenchmarkFile("$comment")
 
 pipeline {
   agent any
@@ -87,7 +87,7 @@ pipeline {
           sh '''
           set -x
           julia benchmark/send_comment_to_pr.jl -o $org -r $repo -p $pullrequest -c "**Starting benchmarks!**"
-          julia benchmark/run_benchmarks.jl ${bmarkFile}
+          julia benchmark/run_benchmarks.jl $bmarkFile
           '''
         }   
       }
