@@ -82,7 +82,7 @@ pipeline {
     stage('run benchmarks') {
       steps {
         script {
-          params.bmarkFile = getBenchmarkFile("$comment")
+          params.bmarkFile = (env.comment.tokenize(' ').length > 2) ? env.comment.tokenize(' ')[2]: 'benchmarks.jl'
         }
         dir(WORKSPACE + "/$repo") {
           sh '''
