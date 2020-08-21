@@ -1,4 +1,5 @@
-def bmarkFile = getBenchmarkFile("$comment")
+bmarkFile = getBenchmarkFile("$comment")
+
 pipeline {
   agent any
   options {
