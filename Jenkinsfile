@@ -1,7 +1,7 @@
 pipeline {
   agent any
   parameters {
-    string(name: 'bmarkFile', defaultValue: '')
+    string(name: 'bmarkFile', defaultValue: 'benchmarks.jl')
   }
   options {
     skipDefaultCheckout true
