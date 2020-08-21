@@ -106,9 +106,6 @@ pipeline {
       }   
     }
     cleanup {
-      dir(WORKSPACE){
-            sh "pwd"
-        }        
       sh 'printenv'
       // sh 'git checkout ' + BRANCH_NAME
       sh '''
