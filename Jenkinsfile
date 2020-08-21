@@ -83,7 +83,6 @@ pipeline {
         script {
           def data = env.comment.tokenize(' ')
           if (data.size() > 2) {
-            // println("data: " + data[0] + " " + data[1] + " " + data[2]);
             bmarkFile = data.get(2);
           }
         }
