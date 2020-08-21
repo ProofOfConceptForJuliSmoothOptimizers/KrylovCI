@@ -1,8 +1,7 @@
+def bmarkFile = 'benchmarks.jl'
+
 pipeline {
   agent any
-  parameters {
-    string(name: 'bmarkFile', defaultValue: 'benchmarks.jl')
-  }
   options {
     skipDefaultCheckout true
   }
@@ -85,13 +84,13 @@ pipeline {
           def data = env.comment.tokenize(' ')
           if (data.size() > 2) {
             // println("data: " + data[0] + " " + data[1] + " " + data[2]);
-            params.bmarkFile = data.get(2);
+            bmarkFile = data.get(2);
           }
         }
         dir(WORKSPACE + "/$repo") {
           sh "set -x"
           sh "julia benchmark/send_comment_to_pr.jl -o $org -r $repo -p $pullrequest -c '**Starting benchmarks!**' "
-          sh "julia benchmark/run_benchmarks.jl $params.bmarkFile"
+          sh "julia benchmark/run_benchmarks.jl $bmarkFile"
         }   
       }
     }
