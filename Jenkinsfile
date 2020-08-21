@@ -1,3 +1,4 @@
+def bmarkFile = ""
 pipeline {
   agent any
   options {
@@ -77,9 +78,11 @@ pipeline {
       }
     }
     stage('run benchmarks') {
+      script {
+        def bmarkFile = getBenchmarkFile("$comment")
+      }
       steps {
         dir(WORKSPACE + "/$repo") {
-          def bmarkFile = getBenchmarkFile("$comment")
           sh '''
           set -x
           julia benchmark/send_comment_to_pr.jl -o $org -r $repo -p $pullrequest -c "**Starting benchmarks!**"
