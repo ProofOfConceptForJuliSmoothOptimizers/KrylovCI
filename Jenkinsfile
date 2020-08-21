@@ -78,10 +78,10 @@ pipeline {
       }
     }
     stage('run benchmarks') {
-      script {
-        def bmarkFile = getBenchmarkFile("$comment")
-      }
       steps {
+        script {
+          def bmarkFile = getBenchmarkFile("$comment")
+        }
         dir(WORKSPACE + "/$repo") {
           sh '''
           set -x
