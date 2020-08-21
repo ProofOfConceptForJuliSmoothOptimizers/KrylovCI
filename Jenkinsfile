@@ -102,7 +102,7 @@ pipeline {
     }
     failure {
       dir(WORKSPACE + "/$repo") {
-        sh 'julia benchmark/send_comment_to_pr.jl -o $org -r $repo -p $pullrequest -c "**An error has occured while running the benchmarks in file $bmarkFile** "'
+        sh "julia benchmark/send_comment_to_pr.jl -o $org -r $repo -p $pullrequest -c '**An error has occured while running the benchmarks in file $bmarkFile** '"
       }   
     }
     cleanup {
