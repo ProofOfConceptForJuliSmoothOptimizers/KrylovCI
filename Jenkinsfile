@@ -1,4 +1,4 @@
-// def bmarkFile = ""
+def bmarkFile = getBenchmarkFile("$comment")
 pipeline {
   agent any
   options {
@@ -79,9 +79,6 @@ pipeline {
     }
     stage('run benchmarks') {
       steps {
-        script {
-          def bmarkFile = getBenchmarkFile("$comment")
-        }
         dir(WORKSPACE + "/$repo") {
           sh '''
           set -x
