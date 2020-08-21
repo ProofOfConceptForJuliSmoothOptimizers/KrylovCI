@@ -83,7 +83,7 @@ pipeline {
       steps {
         script {
           def data = env.comment.tokenize(' ')
-          params.bmarkFile = (data.size() > 2) ? data[2]: 'benchmarks.jl'
+          // params.bmarkFile = (data.size() > 2) ? data[2]: 'benchmarks.jl'
         }
         dir(WORKSPACE + "/$repo") {
           sh '''
