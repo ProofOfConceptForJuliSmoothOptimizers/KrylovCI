@@ -1,4 +1,4 @@
-def bmarkFile = ""
+// def bmarkFile = ""
 pipeline {
   agent any
   options {
