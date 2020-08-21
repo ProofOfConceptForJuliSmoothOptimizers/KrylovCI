@@ -86,11 +86,9 @@ pipeline {
           // params.bmarkFile = (data.size() > 2) ? data[2]: 'benchmarks.jl'
         }
         dir(WORKSPACE + "/$repo") {
-          sh '''
-          set -x
-          julia benchmark/send_comment_to_pr.jl -o $org -r $repo -p $pullrequest -c "**Starting benchmarks!**"
-          julia benchmark/run_benchmarks.jl ${params.bmarkFile}
-          '''
+          sh "set -x"
+          sh "julia benchmark/send_comment_to_pr.jl -o $org -r $repo -p $pullrequest -c '**Starting benchmarks!**' "
+          sh "julia benchmark/run_benchmarks.jl $params.bmarkFile"
         }   
       }
     }
