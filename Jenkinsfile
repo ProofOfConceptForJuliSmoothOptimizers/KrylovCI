@@ -1,8 +1,8 @@
-def bmarkFile = ''
-bmarkFile = getBenchmarkFile("$comment")
-
 pipeline {
   agent any
+  parameters {
+    string(name: 'bmarkFile', defaultValue: '')
+  }
   options {
     skipDefaultCheckout true
   }
@@ -81,14 +81,14 @@ pipeline {
     }
     stage('run benchmarks') {
       steps {
-        // script {
-        //   bmarkFile = getBenchmarkFile("$comment")
-        // }
+        script {
+          params.bmarkFile = getBenchmarkFile("$comment")
+        }
         dir(WORKSPACE + "/$repo") {
           sh '''
           set -x
           julia benchmark/send_comment_to_pr.jl -o $org -r $repo -p $pullrequest -c "**Starting benchmarks!**"
-          julia benchmark/run_benchmarks.jl $bmarkFile
+          julia benchmark/run_benchmarks.jl ${params.bmarkFile}
           '''
         }   
       }
