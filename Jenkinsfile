@@ -82,7 +82,8 @@ pipeline {
     stage('run benchmarks') {
       steps {
         script {
-          params.bmarkFile = (env.comment.tokenize(' ').size() > 2) ? env.comment.tokenize(' ')[2]: 'benchmarks.jl'
+          def data = env.comment.tokenize(' ')
+          params.bmarkFile = (data.size() > 2) ? data[2]: 'benchmarks.jl'
         }
         dir(WORKSPACE + "/$repo") {
           sh '''
@@ -102,7 +103,7 @@ pipeline {
     }
     failure {
       dir(WORKSPACE + "/$repo") {
-        sh 'julia benchmark/send_comment_to_pr.jl -o $org -r $repo -p $pullrequest -c "**An error has occured while running the benchmarks :( ** "'
+        sh 'julia benchmark/send_comment_to_pr.jl -o $org -r $repo -p $pullrequest -c "**An error has occured while running the benchmarks** "'
       }   
     }
     cleanup {
