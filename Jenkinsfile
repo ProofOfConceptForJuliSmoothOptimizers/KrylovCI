@@ -82,7 +82,7 @@ pipeline {
     stage('run benchmarks') {
       steps {
         script {
-          params.bmarkFile = (env.comment.tokenize(' ').length > 2) ? env.comment.tokenize(' ')[2]: 'benchmarks.jl'
+          params.bmarkFile = (env.comment.tokenize(' ').size() > 2) ? env.comment.tokenize(' ')[2]: 'benchmarks.jl'
         }
         dir(WORKSPACE + "/$repo") {
           sh '''
@@ -118,9 +118,4 @@ pipeline {
       // git clean -fd
     }
   }
-}
-
-def getBenchmarkFile(comment) {
-  def bmarkFile = comment.tokenize(' ')
-  return (bmarkfile.length > 2) ? bmarkfile[2]: 'benchmarks.jl'
 }
