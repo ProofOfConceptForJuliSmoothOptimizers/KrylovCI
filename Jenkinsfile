@@ -1,6 +1,6 @@
 def bmarkFile = 'benchmarks.jl'
-// def repo_name = "$repo"
-// def token = repo_name.tokenize(".jl")[0]
+def repo_name = "$repo"
+def token = repo_name.tokenize(".jl")[0]
 
 pipeline {
   agent any
@@ -49,7 +49,7 @@ pipeline {
 
      causeString: 'Triggered on $comment',
 
-     token: 'KrylovCI',
+     token: '$token',
 
      printContributedVariables: true,
      printPostContent: true,
