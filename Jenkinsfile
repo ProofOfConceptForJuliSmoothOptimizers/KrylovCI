@@ -49,7 +49,7 @@ pipeline {
 
      causeString: 'Triggered on $comment',
 
-     token: '$token',
+     token: "KrylovCI",
 
      printContributedVariables: true,
      printPostContent: true,
@@ -112,6 +112,7 @@ pipeline {
       sh 'printenv'
       // sh 'git checkout ' + BRANCH_NAME
       sh '''
+      echo "token: $token"
       rm -rf $repo
       '''
       // git branch -D benchmark
