@@ -89,7 +89,7 @@ pipeline {
           sh "set -x"
           sh "julia benchmark/send_comment_to_pr.jl -o $org -r $repo -p $pullrequest -c '**Starting benchmarks!**' "
           // sh "julia benchmark/run_benchmarks.jl $bmarkFile"
-          sh "qsub -w e -o bmark_output.log -e bmark_error.log -v bmarkFile[=$bmarkFile] push_benchmarks.sh"
+          sh "qsub -V -o bmark_output.log -e bmark_error.log -v bmarkFile[=$bmarkFile] push_benchmarks.sh"
         }   
       }
     }
@@ -109,7 +109,6 @@ pipeline {
       sh 'printenv'
       // sh 'git checkout ' + BRANCH_NAME
       sh '''
-      echo "token: $token"
       rm -rf $repo
       '''
       // git branch -D benchmark
