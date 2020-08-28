@@ -1,7 +1,4 @@
 def bmarkFile = 'benchmarks.jl'
-def repo_name = "$repo"
-def token = repo_name.tokenize(".jl")[0]
-
 pipeline {
   agent any
   options {
@@ -92,7 +89,7 @@ pipeline {
           sh "set -x"
           sh "julia benchmark/send_comment_to_pr.jl -o $org -r $repo -p $pullrequest -c '**Starting benchmarks!**' "
           // sh "julia benchmark/run_benchmarks.jl $bmarkFile"
-          sh "qsub -w e -V -o bmark_output.log -e bmark_error.log -b n push_benchmarks"
+          sh "qsub -w e -o bmark_output.log -e bmark_error.log -v bmarkFile[=$bmarkFIle] push_benchmarks.sh"
         }   
       }
     }
