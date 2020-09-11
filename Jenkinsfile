@@ -87,9 +87,7 @@ pipeline {
         }
         dir(WORKSPACE + "/$repo") {
           sh "set -x"
-          sh "julia benchmark/send_comment_to_pr.jl -o $org -r $repo -p $pullrequest -c '**Starting benchmarks!**' "
-          // sh "julia benchmark/run_benchmarks.jl $bmarkFile"
-          sh "qsub -V -o bmark_output.log -e bmark_error.log -v bmarkFile[=$bmarkFile] push_benchmarks.sh"
+          sh "qsub -V -o bmark_output.log -e bmark_error.log -v bmarkFile=$bmarkFile push_benchmarks.sh"
         }   
       }
     }
@@ -100,11 +98,11 @@ pipeline {
         sh 'julia benchmark/send_comment_to_pr.jl -o $org -r $repo -p $pullrequest -g'
       }   
     }
-    failure {
-      dir(WORKSPACE + "/$repo") {
-        sh "julia benchmark/send_comment_to_pr.jl -o $org -r $repo -p $pullrequest -c '**An error has occured while running the benchmarks in file $bmarkFile** '"
-      }   
-    }
+    // failure {
+    //   dir(WORKSPACE + "/$repo") {
+    //     sh "julia benchmark/send_comment_to_pr.jl -o $org -r $repo -p $pullrequest -c '**An error has occured while running the benchmarks in file $bmarkFile** '"
+    //   }   
+    // }
     cleanup {
       sh 'printenv'
       // sh 'git checkout ' + BRANCH_NAME
