@@ -1,5 +1,6 @@
 using Pkg
-Pkg.activate("./benchmark/")
+bmark_dir = @__DIR__
+Pkg.activate(bmark_dir)
 Pkg.instantiate()
 
 using ArgParse
