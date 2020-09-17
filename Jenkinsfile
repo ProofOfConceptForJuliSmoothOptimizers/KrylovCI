@@ -99,17 +99,17 @@ pipeline {
   }
   post {
     success {
-      dir(WORKSPACE + "/$repo") {
-        echo "SUCCESS!"
-      }   
+      echo "SUCCESS!"  
     }
     cleanup {
-      sh 'printenv'
-      sh 'git checkout ' + BRANCH_NAME
-      sh '''
-      git branch -D benchmark
-      git clean -fd
-      '''
+      dir(WORKSPACE + "/$repo") {
+        sh 'printenv'
+        sh 'git checkout ' + BRANCH_NAME
+        sh '''
+        git branch -D benchmark
+        git clean -fd
+        '''
+      }
     }
   }
 }
