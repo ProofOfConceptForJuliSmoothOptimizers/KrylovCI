@@ -1,6 +1,9 @@
 def bmarkFile = 'benchmarks.jl'
 pipeline {
   agent any
+  environment {
+    REPO_EXISTS = fileExists '$repo'
+  }
   options {
     skipDefaultCheckout true
   }
@@ -61,9 +64,7 @@ pipeline {
     stage('clone repo') {
       steps {
         when {
-          expression {
-            return !fileExists("$repo")
-            }
+          expression { REPO_EXISTS == 'false' }
         }
         sh 'git clone https://${GITHUB_AUTH}@github.com/$org/$repo.git'
       }
