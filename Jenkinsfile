@@ -62,10 +62,10 @@ pipeline {
   }
   stages {
     stage('clone repo') {
+      when {
+        expression { REPO_EXISTS == 'false' }
+      }
       steps {
-        when {
-          expression { REPO_EXISTS == 'false' }
-        }
         sh 'git clone https://${GITHUB_AUTH}@github.com/$org/$repo.git'
       }
     }
