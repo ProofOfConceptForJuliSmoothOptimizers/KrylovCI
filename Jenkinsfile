@@ -87,7 +87,8 @@ pipeline {
         }
         dir(WORKSPACE + "/$repo") {
           sh "set -x"
-          sh "qsub -V -o bmark_output.log -e bmark_error.log -v bmarkFile=$bmarkFile push_benchmarks.sh"
+          sh "export bmark_file=$bmarkFile"
+          sh "qsub -V -cwd -o $HOME/bmark_output.log -e $HOME/bmark_error.log push_benchmarks.sh"
         }   
       }
     }
