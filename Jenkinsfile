@@ -58,19 +58,22 @@ pipeline {
     )
   }
   stages {
-    stage('pull from repository') {
+    stage('clone repo') {
       steps {
+        when {
+          expression {
+            return !fileExists("$repo")
+            }
+        }
         sh 'git clone https://${GITHUB_AUTH}@github.com/$org/$repo.git'
-        dir(WORKSPACE + "/$repo") {
-            sh 'git checkout ' + BRANCH_NAME
-            sh 'git pull'
-        }        
       }
     }
     stage('checkout on new branch') {
       steps {
         dir(WORKSPACE + "/$repo") {
           sh '''
+          git checkout $BRANCH_NAME
+          git pull
           git fetch --no-tags origin '+refs/heads/master:refs/remotes/origin/master'
           git checkout -b benchmark
           '''    
@@ -96,22 +99,16 @@ pipeline {
   post {
     success {
       dir(WORKSPACE + "/$repo") {
-        sh 'julia benchmark/send_comment_to_pr.jl -o $org -r $repo -p $pullrequest -g'
+        echo "SUCCESS!"
       }   
     }
-    // failure {
-    //   dir(WORKSPACE + "/$repo") {
-    //     sh "julia benchmark/send_comment_to_pr.jl -o $org -r $repo -p $pullrequest -c '**An error has occured while running the benchmarks in file $bmarkFile** '"
-    //   }   
-    // }
     cleanup {
       sh 'printenv'
-      // sh 'git checkout ' + BRANCH_NAME
+      sh 'git checkout ' + BRANCH_NAME
       sh '''
-      rm -rf $repo
+      git branch -D benchmark
+      git clean -fd
       '''
-      // git branch -D benchmark
-      // git clean -fd
     }
   }
 }
