@@ -1,7 +1,4 @@
 def bmarkFile = 'benchmarks.jl'
-// def repo_name = "$repo"
-// def token = repo_name.tokenize(".jl")[0]
-
 pipeline {
   agent any
   options {
@@ -49,7 +46,7 @@ pipeline {
 
      causeString: 'Triggered on $comment',
 
-     token: 'KrylovCI',
+     token: "KrylovCI",
 
      printContributedVariables: true,
      printPostContent: true,
@@ -90,9 +87,7 @@ pipeline {
         }
         dir(WORKSPACE + "/$repo") {
           sh "set -x"
-          sh "julia benchmark/send_comment_to_pr.jl -o $org -r $repo -p $pullrequest -c '**Starting benchmarks!**' "
-          // sh "julia benchmark/run_benchmarks.jl $bmarkFile"
-          sh "qsub -w e -V -o bmark_output.log -e bmark_error.log -b n push_benchmarks"
+          sh "qsub -V -o bmark_output.log -e bmark_error.log -v bmarkFile=$bmarkFile push_benchmarks.sh"
         }   
       }
     }
@@ -103,11 +98,11 @@ pipeline {
         sh 'julia benchmark/send_comment_to_pr.jl -o $org -r $repo -p $pullrequest -g'
       }   
     }
-    failure {
-      dir(WORKSPACE + "/$repo") {
-        sh "julia benchmark/send_comment_to_pr.jl -o $org -r $repo -p $pullrequest -c '**An error has occured while running the benchmarks in file $bmarkFile** '"
-      }   
-    }
+    // failure {
+    //   dir(WORKSPACE + "/$repo") {
+    //     sh "julia benchmark/send_comment_to_pr.jl -o $org -r $repo -p $pullrequest -c '**An error has occured while running the benchmarks in file $bmarkFile** '"
+    //   }   
+    // }
     cleanup {
       sh 'printenv'
       // sh 'git checkout ' + BRANCH_NAME
