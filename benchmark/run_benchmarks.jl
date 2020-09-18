@@ -1,11 +1,8 @@
 using Pkg
 bmark_dir = @__DIR__
-print(bmark_dir)
 Pkg.activate(bmark_dir)
 Pkg.develop(PackageSpec(url=joinpath(bmark_dir, ".."))) 
 Pkg.instantiate()
-Pkg.pin(PackageSpec(name="LearnBase", version="0.3"))
-
 
 using GitHub, JSON, PkgBenchmark
 commit = benchmarkpkg("Krylov"; script=joinpath(bmark_dir, ARGS[1]))  # current state of repository

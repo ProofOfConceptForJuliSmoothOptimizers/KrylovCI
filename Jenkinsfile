@@ -1,6 +1,9 @@
 def bmarkFile = 'benchmarks.jl'
 pipeline {
   agent any
+  environment {
+    REPO_EXISTS = fileExists '$repo'
+  }
   options {
     skipDefaultCheckout true
   }
@@ -58,19 +61,21 @@ pipeline {
     )
   }
   stages {
-    stage('pull from repository') {
+    stage('clone repo') {
+      when {
+        expression { REPO_EXISTS == 'false' }
+      }
       steps {
         sh 'git clone https://${GITHUB_AUTH}@github.com/$org/$repo.git'
-        dir(WORKSPACE + "/$repo") {
-            sh 'git checkout ' + BRANCH_NAME
-            sh 'git pull'
-        }        
       }
     }
     stage('checkout on new branch') {
       steps {
         dir(WORKSPACE + "/$repo") {
           sh '''
+          git checkout $BRANCH_NAME
+          git clean -fd
+          git pull
           git fetch --no-tags origin '+refs/heads/master:refs/remotes/origin/master'
           git checkout -b benchmark
           '''    
@@ -87,30 +92,25 @@ pipeline {
         }
         dir(WORKSPACE + "/$repo") {
           sh "set -x"
-          sh "qsub -V -o $HOME/bmark_output.log -e $HOME/bmark_error.log -v bmarkFile=$bmarkFile push_benchmarks.sh"
+          sh "export bmark_file=$bmarkFile"
+          sh "qsub -V -cwd -o /home/motoug/jenkins_output/bmark_output.log -e /home/motoug/jenkins_output/bmark_error.log push_benchmarks.sh"
         }   
       }
     }
   }
   post {
-    // success {
-    //   dir(WORKSPACE + "/$repo") {
-    //     sh 'julia benchmark/send_comment_to_pr.jl -o $org -r $repo -p $pullrequest -g'
-    //   }   
-    // }
-    // failure {
-    //   dir(WORKSPACE + "/$repo") {
-    //     sh "julia benchmark/send_comment_to_pr.jl -o $org -r $repo -p $pullrequest -c '**An error has occured while running the benchmarks in file $bmarkFile** '"
-    //   }   
-    // }
+    success {
+      echo "SUCCESS!"  
+    }
     cleanup {
-      sh 'printenv'
-      // sh 'git checkout ' + BRANCH_NAME
-      sh '''
-      rm -rf $repo
-      '''
-      // git branch -D benchmark
-      // git clean -fd
+      dir(WORKSPACE + "/$repo") {
+        sh 'printenv'
+        sh 'git checkout ' + BRANCH_NAME
+        sh '''
+        git branch -D benchmark
+        git clean -fd
+        '''
+      }
     }
   }
 }

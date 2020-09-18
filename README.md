@@ -1,6 +1,6 @@
 # Krylov.jl: A Julia basket of hand-picked Krylov methods
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3548984.svg)](https://doi.org/10.5281/zenodo.3548984)
+[![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.822073-blue.svg)](https://doi.org/10.5281/zenodo.822073)
 
 | **Documentation** | **Travis, AppVeyor and Cirrus build statuses** | **Coverage** |
 |:-----------------:|:----------------------------------------------:|:------------:|
@@ -93,3 +93,8 @@ julia> ]
 pkg> add Krylov
 pkg> test Krylov
 ```
+
+## How to Cite
+
+If you use Krylov.jl in your work, please cite using the format given in [`CITATION.bib`](https://github.com/JuliaSmoothOptimizers/Krylov.jl/blob/master/CITATION.bib).
+
