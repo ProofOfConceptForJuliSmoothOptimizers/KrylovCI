@@ -1,5 +1,6 @@
 #!/bin/bash
 
+echo "Github_auth: $GITHUB_AUTH"
 julia benchmark/send_comment_to_pr.jl -o $org -r $repo -p $pullrequest -c '**Starting benchmarks!**'  
 
 if julia benchmark/run_benchmarks.jl $bmark_file ; then
